@@ -19,10 +19,16 @@ webApp.use((req, res, next) => {
 const homeRoute = require('./routes/homeRoute');
 const machineRoute = require('./routes/machineRoute');
 const tagRoute = require('./routes/tagsRoute');
+const clientRoute = require('./routes/clientRoute');
+const endUserRoute = require('./routes/endUserRoute');
+const userRoute = require('./routes/userRoute');
 
 webApp.use('/', homeRoute.router);
 webApp.use('/machine', machineRoute.router);
 webApp.use('/tag', tagRoute.router);
+webApp.use('/client', clientRoute.router);
+webApp.use('/endUser', endUserRoute.router);
+webApp.use('/user', userRoute.router);
 
 const { MONGODB_URL } = process.env;
 
@@ -35,3 +41,4 @@ mongoose.connect(MONGODB_URL)
     .catch((err) => {
         console.error('MongoDB connection error.');
     });
+    
