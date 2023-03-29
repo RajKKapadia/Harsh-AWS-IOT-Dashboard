@@ -22,6 +22,7 @@ const tagRoute = require('./routes/tagsRoute');
 const clientRoute = require('./routes/clientRoute');
 const endUserRoute = require('./routes/endUserRoute');
 const userRoute = require('./routes/userRoute');
+const loginRoute = require('./routes/loginRoute');
 
 webApp.use('/', homeRoute.router);
 webApp.use('/machine', machineRoute.router);
@@ -29,6 +30,7 @@ webApp.use('/tag', tagRoute.router);
 webApp.use('/client', clientRoute.router);
 webApp.use('/endUser', endUserRoute.router);
 webApp.use('/user', userRoute.router);
+webApp.use('/login', loginRoute.router);
 
 const { MONGODB_URL } = process.env;
 
