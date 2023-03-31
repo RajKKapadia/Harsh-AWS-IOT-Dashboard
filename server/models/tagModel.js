@@ -6,8 +6,8 @@ const tagSchema = new Schema(
     {
         machineId: String,
         tag: String,
-        data: [],
-        createdAt: { type: Date, default: Date.now() }   
+        data: { type: Array, default: [] },
+        createdAt: { type: Date, default: Date.now() }
     }
 );
 
