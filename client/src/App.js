@@ -1,41 +1,37 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { QueryClientProvider, QueryClient } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { QueryClientProvider, QueryClient } from 'react-query'
+// import { ReactQueryDevtools } from 'react-query/devtools'
+import { Provider } from 'react-redux'
 
-import Dashboard from "./components/Dashboard/Dashboard";
-import Login from "./components/Authentication/Login";
-import Machine from "./components/Machine/Machine";
-import Client from "./components/Client/Client";
-import useToken from "./components/hooks/useToken";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from './components/navBar/Navbar'
 
-const queryClient = new QueryClient();
+import { store } from './redux/store'
+import { Button, StyledEngineProvider, ThemeProvider, GlobalStyles } from '@mui/material'
+import theme from './config/theme'
+import Dashboard from './page/dashboard/main/dashboard'
+import DashboardCategory from './page/dashboard/category/dashboardCategory'
+
+// const queryClient = new QueryClient()
 
 const App = () => {
-
-  const { token, setToken } = useToken();
-
-  if (!token) {
-    return <Login setToken={setToken} />
-  }
-
   return (
-    <QueryClientProvider client={queryClient}>
-      <Navbar />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Dashboard />}></Route>
-          <Route path="/clients" element={<Client />}></Route>
-          <Route path="/machines" element={<Machine />}></Route>
-          <Route path="/login" element={<Login setToken={setToken} />}></Route>
-        </Routes>
-      </Router>
-      <ReactQueryDevtools
-        initialIsOpen={false}
-        position="bottom-right"
-      ></ReactQueryDevtools>
-    </QueryClientProvider>
-  );
-};
+    <StyledEngineProvider injectFirst>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyles styles={theme.globalStyles} />
+          <Router>
+            <Navbar></Navbar>
+            <Routes>
+              {/* <Route path='/' element={<Tags />}></Route> */}
+              <Route path='/dashboard' element={<Dashboard />}></Route>
+              <Route path='/dashboard/:category' element={<DashboardCategory />}></Route>
+            </Routes>
+          </Router>
+        </ThemeProvider>
+        {/* <ReactQueryDevtools initialIsOpen={false} position='bottom-right'></ReactQueryDevtools> */}
+      </Provider>
+    </StyledEngineProvider>
+  )
+}
 
-export default App;
+export default App
