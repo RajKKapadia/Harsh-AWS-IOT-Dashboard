@@ -1,10 +1,9 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
-import { queryApi } from './slice/query'
-
+import { MachineQuery } from './slice/machineQuery'
 
 export const store = configureStore({
-  reducer:{
-    [queryApi.reducerPath]:queryApi.reducer
+  reducer: {
+    [MachineQuery.reducerPath]: MachineQuery.reducer,
   },
-  middleware:(getDefaultMiddleware)=>getDefaultMiddleware({serializableCheck:false}).concat([queryApi.middleware])
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat([MachineQuery.middleware]),
 })
