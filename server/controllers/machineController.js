@@ -19,7 +19,7 @@ const createMachine = async (req, res) => {
 
 const updateMachine = async (req, res) => {
     let id = req.params.id;
-    let machineUpdate = req.body;
+    let {_id,machineUpdate} = req.body;
     let result = await MachineModel.findOneAndUpdate(id, machineUpdate);
     return res.status(200).json(result);
 };

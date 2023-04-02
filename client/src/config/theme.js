@@ -5,7 +5,7 @@ const GLOBALSTYLES = {
     margin: 0,
   },
   html: {
-    fontSize: '.695vw',
+    fontSize: '.8vw',
   },
 }
 

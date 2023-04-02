@@ -7,6 +7,38 @@ export const MachineQuery = createApi({
     getMachineList: builder.query({
       query: () => `/all`,
     }),
+    addMachine: builder.mutation({
+      query: (body) => {
+        return {
+          url: '/create',
+          method: 'POST',
+          body,
+        }
+      },
+    }),
+    deleteMachine:builder.mutation({
+      query:()=>{
+        return {
+          url:'/'
+        }
+      }
+    }),
+    getMachineById:builder.mutation({
+      query:(id)=>{
+        return {
+          url: `/one/${id}`,
+        }
+      }
+    }),
+    updateMachine:builder.mutation({
+      query:({id,body})=>{
+        return {
+          url: `/update/${id}`,
+          method:'POST',
+          body
+        }
+      }
+    })
   }),
 })
 // export const pokemonApi = createApi({
@@ -19,4 +51,4 @@ export const MachineQuery = createApi({
 //   }),
 // })
 
-export const { useGetMachineListQuery } = MachineQuery
+export const { useGetMachineListQuery, useAddMachineMutation, useGetMachineByIdMutation, useUpdateMachineMutation } = MachineQuery
