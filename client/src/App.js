@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { QueryClientProvider, QueryClient } from 'react-query'
+// import { QueryClientProvider, QueryClient } from 'react-query';
 // import { ReactQueryDevtools } from 'react-query/devtools'
 import { Provider } from 'react-redux'
 
-import Navbar from './components/navBar/Navbar'
+import Navbar from './components/Navbar/Navbar';
 
 import { store } from './redux/store'
 import { Button, StyledEngineProvider, ThemeProvider, GlobalStyles } from '@mui/material'
