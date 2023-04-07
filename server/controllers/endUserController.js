@@ -20,7 +20,7 @@ const createEndUser = async (req, res) => {
 const updateEndUser = async (req, res) => {
     let id = req.params.id;
     let endUserUpdate = req.body;
-    let result = await EndUserModel.findOneAndUpdate(id, endUserUpdate);
+    let result = await EndUserModel.findByIdAndUpdate(id, endUserUpdate);
     return res.status(200).json(result);
 };
 

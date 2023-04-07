@@ -6,6 +6,7 @@ const machineSchema = new Schema({
     name: String,
     maker: String,
     type: String,
+    assigned: { type: Boolean, default: false },
     machineData: { type: Array, default: [] },
     createdAt: { type: Date, default: Date.now() },
     isDeleted: { type: Boolean, default: false },

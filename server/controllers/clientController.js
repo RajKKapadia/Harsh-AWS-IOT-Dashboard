@@ -20,7 +20,7 @@ const createClient = async (req, res) => {
 const updateClient = async (req, res) => {
     let id = req.params.id;
     let clientUpdate = req.body;
-    let result = await ClientModel.findOneAndUpdate(id, clientUpdate);
+    let result = await ClientModel.findByIdAndUpdate(id, clientUpdate);
     return res.status(200).json(result);
 };
 
