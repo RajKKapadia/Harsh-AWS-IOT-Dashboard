@@ -38,9 +38,17 @@ export const MachineQuery = createApi({
           body
         }
       }
+    }),
+    deleteMachine:builder.mutation({
+      query:(id)=>{
+        return {
+          url:`/${id}`,
+          method:'DELETE'
+        }
+      }
     })
   }),
 })
 
 
-export const { useGetMachineListQuery, useAddMachineMutation, useGetMachineByIdMutation, useUpdateMachineMutation } = MachineQuery
+export const { useGetMachineListQuery, useAddMachineMutation, useGetMachineByIdMutation, useUpdateMachineMutation, useDeleteMachineMutation } = MachineQuery

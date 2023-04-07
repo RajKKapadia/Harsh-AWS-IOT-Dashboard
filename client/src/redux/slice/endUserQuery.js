@@ -1,13 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-export const clientQuery = createApi({
-  reducerPath: 'clientApi',
-  baseQuery: fetchBaseQuery({ baseUrl: `${process.env.REACT_APP_DB_URL}/client` }),
+export const endUserQuery = createApi({
+  reducerPath: 'endUserApi',
+  baseQuery: fetchBaseQuery({ baseUrl: `${process.env.REACT_APP_DB_URL}/endUser` }),
   endpoints: (builder) => ({
-    getClientList: builder.query({
+    getEndUserList: builder.query({
       query: () => `/all`,
     }),
-    addClient: builder.mutation({
+    addEndUser: builder.mutation({
       query: (body) => {
         return {
           url: '/create',
@@ -16,21 +16,21 @@ export const clientQuery = createApi({
         }
       },
     }),
-    deleteClient: builder.mutation({
+    deleteEndUser: builder.mutation({
       query: () => {
         return {
           url: '/',
         }
       },
     }),
-    getClientById: builder.mutation({
+    getEndUserById: builder.mutation({
       query: (id) => {
         return {
           url: `/one/${id}`,
         }
       },
     }),
-    updateClient: builder.mutation({
+    updateEndUser: builder.mutation({
       query: ({ id, body }) => {
         return {
           url: `/update/${id}`,
@@ -39,7 +39,7 @@ export const clientQuery = createApi({
         }
       },
     }),
-    deleteClient: builder.mutation({
+    deleteEndUser: builder.mutation({
       query: (id) => {
         return {
           url: `/${id}`,
@@ -50,4 +50,4 @@ export const clientQuery = createApi({
   }),
 })
 
-export const { useGetClientListQuery, useAddClientMutation, useGetClientByIdMutation, useUpdateClientMutation, useDeleteClientMutation } = clientQuery
+export const { useGetEndUserListQuery, useAddEndUserMutation, useGetEndUserByIdMutation, useUpdateEndUserMutation, useDeleteEndUserMutation } = endUserQuery

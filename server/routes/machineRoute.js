@@ -5,14 +5,15 @@ const {
     getAllMachines,
     getMachineById,
     createMachine,
-    updateMachine
+    updateMachine,
+    deleteMachine
 } = require('../controllers/machineController');
 
 router.get('/all', getAllMachines);
 router.get('/one/:id', getMachineById);
 router.post('/create', createMachine);
 router.post('/update/:id', updateMachine);
-
+router.delete('/:id',deleteMachine)
 module.exports = {
     router
 };

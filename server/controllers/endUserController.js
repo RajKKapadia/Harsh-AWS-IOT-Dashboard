@@ -23,10 +23,16 @@ const updateEndUser = async (req, res) => {
     let result = await EndUserModel.findByIdAndUpdate(id, endUserUpdate);
     return res.status(200).json(result);
 };
+const deleteEndUser = async (req, res) => {
+  let id = req.params.id
+  let result = await EndUserModel.findByIdAndDelete(id)
+  return res.status(200).json(result)
+}
 
 module.exports = {
     getAllEndUsers,
     createEndUser,
     getEndUserById,
-    updateEndUser
+    updateEndUser,
+    deleteEndUser
 };

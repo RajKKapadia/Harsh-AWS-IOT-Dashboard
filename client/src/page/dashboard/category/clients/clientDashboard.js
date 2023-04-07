@@ -8,7 +8,7 @@ import { useGetMachineByIdMutation, useGetMachineListQuery } from '../../../../r
 import DeleteButton from '../../../../components/Buttons/DeleteButton/deleteButton'
 import EditButton from '../../../../components/Buttons/EditButton/editButton'
 import ClientForm from './clientForm'
-import { useGetClientByIdMutation, useGetClientListQuery } from '../../../../redux/slice/clientQuery'
+import { useDeleteClientMutation, useGetClientByIdMutation, useGetClientListQuery } from '../../../../redux/slice/clientQuery'
 
 const getClientsRowData = (clients) => {
   const row = clients?.map((client) => {
@@ -35,12 +35,13 @@ const style = {
   boxShadow: 24,
 }
 
-const MachineDashboard = () => {
+const ClientDashboard = () => {
   const { data, isLoading, isSuccess, refetch: getAllClient, isFetching } = useGetClientListQuery('client')
   const [clientById, setClientById] = useState()
   const [getClientById] = useGetClientByIdMutation({
     fixedCacheKey: 'client-by-id',
   })
+  const [deleteClient] = useDeleteClientMutation()
 
   const [clientData, setClientData] = useState()
   const [modalStatus, setModalStatus] = useState({
@@ -54,6 +55,14 @@ const MachineDashboard = () => {
       setModalStatus({ isOpen: true, isEdit: true })
     })
   }
+
+    const onDelete = (id) => {
+      deleteClient(id).then(() => {
+        getAllClient()
+      })
+    }
+
+
   const columns = [
     {
       Header: 'Delete',
@@ -65,7 +74,7 @@ const MachineDashboard = () => {
       hideLabel: true,
       Cell: (tableInstance) => {
         console.log('tabl :::', tableInstance)
-        return <DeleteButton />
+        return <DeleteButton onClick={() => onDelete(tableInstance?.row?.original.id)} />
       },
       Filter: ColumnFilter,
     },
@@ -150,4 +159,4 @@ const MachineDashboard = () => {
   )
 }
 
-export default MachineDashboard
+export default ClientDashboard

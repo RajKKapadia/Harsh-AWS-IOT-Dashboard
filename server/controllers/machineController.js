@@ -24,9 +24,16 @@ const updateMachine = async (req, res) => {
     return res.status(200).json(result);
 };
 
+const deleteMachine = async (req, res) => {
+  let id = req.params.id
+  let result = await MachineModel.findByIdAndDelete(id)
+  return res.status(200).json(result)
+}
+
 module.exports = {
     getAllMachines,
     createMachine,
     getMachineById,
-    updateMachine
+    updateMachine,
+    deleteMachine
 };

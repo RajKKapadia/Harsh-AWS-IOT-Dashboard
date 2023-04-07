@@ -14,10 +14,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const DeleteButton = ({ width = '2rem', height = '2rem' }) => {
+const DeleteButton = ({ width = '2rem', height = '2rem',onClick }) => {
   const styles = useStyles()
   return (
-    <Box sx={{ width: width, height: height }} className={styles.container}>
+    <Box sx={{ width: width, height: height }} className={styles.container} onClick={()=>onClick()}>
       <DeleteIcon />
     </Box>
   )

@@ -24,9 +24,16 @@ const updateClient = async (req, res) => {
     return res.status(200).json(result);
 };
 
+const deleteClient = async (req, res) => {
+  let id = req.params.id
+  let result = await ClientModel.findByIdAndDelete(id)
+  return res.status(200).json(result)
+}
+
 module.exports = {
     getAllClients,
     createClient,
     getClientById,
-    updateClient
+    updateClient,
+    deleteClient
 };

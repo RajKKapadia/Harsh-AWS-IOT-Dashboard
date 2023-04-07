@@ -4,7 +4,7 @@ import Modal from '@mui/material/Modal'
 
 import { ColumnFilter } from '../../../../components/Table/table'
 import Table from '../../../../components/Table/table'
-import { useGetMachineByIdMutation, useGetMachineListQuery } from '../../../../redux/slice/machineQuery'
+import { useDeleteMachineMutation, useGetMachineByIdMutation, useGetMachineListQuery } from '../../../../redux/slice/machineQuery'
 import DeleteButton from '../../../../components/Buttons/DeleteButton/deleteButton'
 import EditButton from '../../../../components/Buttons/EditButton/editButton'
 import MachineForm from './machineForm'
@@ -41,6 +41,7 @@ const MachineDashboard = () => {
   const [getMachineById] = useGetMachineByIdMutation({
     fixedCacheKey:'machine-by-id'
   })
+  const [deleteMachine] = useDeleteMachineMutation()
 
   const [machineData, setMachineData] = useState()
   const [modalStatus, setModalStatus] = useState({
@@ -54,6 +55,14 @@ const MachineDashboard = () => {
       setModalStatus({isOpen:true,isEdit:true})
     })
   }
+
+  const onDelete = (id)=>{
+    deleteMachine(id).then(()=>{
+      getAllMachine()
+    })
+  }
+
+  
   const columns = [
     {
       Header: 'Delete',
@@ -64,8 +73,7 @@ const MachineDashboard = () => {
       },
       hideLabel: true,
       Cell: (tableInstance) => {
-        console.log('tabl :::', tableInstance)
-        return <DeleteButton />
+        return <DeleteButton onClick={()=>onDelete(tableInstance?.row?.original.id)} />
       },
       Filter: ColumnFilter,
     },
