@@ -26,7 +26,9 @@ const MachineForm = ({ getAllMachine, setModalStatus, machineById, modalStatus }
   })
 
   useEffect(() => {
-    updateForm(machineById)
+    if(modalStatus?.isEdit){
+       updateForm(machineById)
+    }
   }, [machineById])
 
   const onSubmit = () => {

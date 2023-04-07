@@ -41,14 +41,6 @@ export const MachineQuery = createApi({
     })
   }),
 })
-// export const pokemonApi = createApi({
-//   reducerPath: 'pokemonApi',
-//   baseQuery: fetchBaseQuery({ baseUrl: 'https://pokeapi.co/api/v2/' }),
-//   endpoints: (builder) => ({
-//     getPokemonByName: builder.query<Pokemon, string>({
-//       query: (name) => `pokemon/${name}`,
-//     }),
-//   }),
-// })
+
 
 export const { useGetMachineListQuery, useAddMachineMutation, useGetMachineByIdMutation, useUpdateMachineMutation } = MachineQuery

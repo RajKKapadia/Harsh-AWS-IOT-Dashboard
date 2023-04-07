@@ -113,26 +113,13 @@ const MachineDashboard = () => {
   ]
 
   useEffect(() => {
-    console.log('machie data::::::', data)
     setMachineData(getMachinesRowData(data))
   }, [data,isFetching])
 
-  console.log("machie data::::::",data,machineData)
 
-  const DUMMY_DATA = [
-    {
-      name: 'abc',
-      type: 'sfa',
-      tags: 'aa',
-    },
-    {
-      name: 'abc',
-      type: 'sfa',
-      tags: 'aa',
-    },
-  ]
 
-  // return <Table/>
+
+
   if (isLoading) return <Typography variant='h3'>Loading....</Typography>
   return (
     <Box sx={{ m: '2rem' }}>
