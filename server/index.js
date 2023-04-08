@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const cookie = require('cookie-parser')
 require('dotenv').config();
 
 const webApp = express();
@@ -15,6 +16,7 @@ webApp.use((req, res, next) => {
     console.log(`Path ${req.path} with Method ${req.method}`);
     next();
 });
+webApp.use(cookie())
 
 const homeRoute = require('./routes/homeRoute');
 const machineRoute = require('./routes/machineRoute');

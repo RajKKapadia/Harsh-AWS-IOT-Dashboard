@@ -1,11 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { getAuthToken } from '../../utils/helperFunction/helperFunction'
 
 export const MachineQuery = createApi({
   reducerPath: 'queryApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${process.env.REACT_APP_DB_URL}/machine` }),
   endpoints: (builder) => ({
     getMachineList: builder.query({
-      query: () => `/all`,
+      query: () => {
+        const token = getAuthToken();
+        return {
+          url: `/all`,
+          headers:{
+            authorization:token
+          }
+        }},
     }),
     addMachine: builder.mutation({
       query: (body) => {

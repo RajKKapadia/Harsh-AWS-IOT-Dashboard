@@ -1,14 +1,9 @@
 const express = require('express');
+const { logInUser } = require('../controllers/loginController');
+
 const router = express.Router();
 
-router.post('/', (req, res) => {
-    console.log(req.body);
-    res.status(200).json(
-        {
-            token: 'abcd1234'
-        }
-    );
-});
+router.post('/', logInUser);
 
 module.exports = {
     router

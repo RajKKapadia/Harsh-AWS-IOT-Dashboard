@@ -10,6 +10,8 @@ import { Button, StyledEngineProvider, ThemeProvider, GlobalStyles } from '@mui/
 import theme from './config/theme'
 import Dashboard from './page/dashboard/main/dashboard'
 import DashboardCategory from './page/dashboard/category/dashboardCategory'
+import LogIn from './page/auth/logIn';
+import Signup from './page/auth/signup';
 
 // const queryClient = new QueryClient()
 
@@ -23,6 +25,8 @@ const App = () => {
             <Navbar></Navbar>
             <Routes>
               {/* <Route path='/' element={<Tags />}></Route> */}
+              <Route path='/login' element={<LogIn />}></Route>
+              <Route path='/signup' element={<Signup />}></Route>
               <Route path='/dashboard' element={<Dashboard />}></Route>
               <Route path='/dashboard/:category' element={<DashboardCategory />}></Route>
             </Routes>
