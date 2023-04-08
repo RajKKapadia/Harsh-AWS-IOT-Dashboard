@@ -1,4 +1,5 @@
 const MachineModel = require('../models/machineModel');
+const ClientModel = require('../models/clientModel');
 
 const getAllMachines = async (req, res) => {
     let result = await MachineModel.find({});
@@ -14,6 +15,12 @@ const getMachineById = async (req, res) => {
 const createMachine = async (req, res) => {
     let machineBody = req.body;
     let result = await MachineModel.create(machineBody);
+    await ClientModel.findByIdAndUpdate(
+        machineBody.clientId,
+        {
+            $push: { machines: machineBody.machineId }
+        }
+    );
     return res.status(200).json(result);
 };
 
