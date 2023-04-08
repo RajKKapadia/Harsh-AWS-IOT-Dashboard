@@ -1,7 +1,7 @@
 import { Box, Button, Stack, TextField, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useEffect, useState } from 'react'
-import Input from '../../../../components/Input/input'
+import Input from '../../../../components/common/Input/input'
 import { useAddClientMutation, useUpdateClientMutation } from '../../../../redux/slice/clientQuery'
 import { useAddEndUserMutation, useUpdateEndUserMutation } from '../../../../redux/slice/endUserQuery'
 import { useAddMachineMutation, useUpdateMachineMutation } from '../../../../redux/slice/machineQuery'

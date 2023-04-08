@@ -2,12 +2,13 @@ import { Box, Button, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import Modal from '@mui/material/Modal'
 
-import { ColumnFilter } from '../../../../components/Table/table'
-import Table from '../../../../components/Table/table'
+import { ColumnFilter } from '../../../../components/common/Table/table'
+import Table from '../../../../components/common/Table/table'
 import { useDeleteMachineMutation, useGetMachineByIdMutation, useGetMachineListQuery } from '../../../../redux/slice/machineQuery'
-import DeleteButton from '../../../../components/Buttons/DeleteButton/deleteButton'
-import EditButton from '../../../../components/Buttons/EditButton/editButton'
+
 import MachineForm from './machineForm'
+import DeleteButton from '../../../../components/common/Buttons/DeleteButton/deleteButton'
+import EditButton from '../../../../components/common/Buttons/EditButton/editButton'
 
 const getMachinesRowData = (machines) => {
   const row = machines?.map((machine) => {
