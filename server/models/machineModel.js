@@ -10,7 +10,7 @@ const machineSchema = new Schema({
     machineData: { type: Array, default: [] },
     createdAt: { type: Date, default: Date.now() },
     isDeleted: { type: Boolean, default: false },
-    clientId: { type: String, default: '' },
+    clientId: String,
     endUserId: { type: String, default: '' }
 });
 
