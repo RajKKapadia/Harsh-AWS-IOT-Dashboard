@@ -6,6 +6,7 @@ const clientSchema = new Schema({
     companyName: String,
     email: String,
     phone: String,
+    password: String,
     machines: { type: Array, default: [] },
     createdAt: { type: Date, default: Date.now() },
     isDeleted: { type: Boolean, default: false }
