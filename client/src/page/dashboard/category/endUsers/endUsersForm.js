@@ -25,6 +25,7 @@ const EndUsersForm = ({ getAllEndUsers, setModalStatus, endUsersById, modalStatu
     email: '',
     companyName: '',
     phone: '',
+    password:''
   })
 
   useEffect(() => {
@@ -61,6 +62,7 @@ const EndUsersForm = ({ getAllEndUsers, setModalStatus, endUsersById, modalStatu
       <Stack sx={{ p: '1rem' }} spacing='1.2rem'>
         <Input label='End-user Name' onChange={(value) => updateForm({ ...form, name: value })} value={form?.name} />
         <Input label='End-user Email' onChange={(value) => updateForm({ ...form, email: value })} value={form?.email} />
+        <Input label='End-user Password' onChange={(value) => updateForm({ ...form, password: value })} value={form?.password} />
         <Input label='End-user Phone number' onChange={(value) => updateForm({ ...form, phone: value })} value={form?.phone} />
         <Input label='End-user Company' onChange={(value) => updateForm({ ...form, companyName: value })} value={form?.companyName} />
         <Button variant='contained' sx={{ fontSize: '1.3rem' }} onClick={() => onSubmit()}>

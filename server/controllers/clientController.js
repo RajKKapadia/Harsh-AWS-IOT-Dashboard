@@ -1,4 +1,5 @@
 const ClientModel = require('../models/clientModel');
+const UserModel = require('../models/userModel')
 
 const getAllClients = async (req, res) => {
     let result = await ClientModel.find({});
@@ -13,7 +14,14 @@ const getClientById = async (req, res) => {
 
 const createClient = async (req, res) => {
     let clientBody = req.body;
+    let userBody = {
+        name:req.body.name,
+        email:req.body.email,
+        password:req.body.password,
+        role:"CLIENT"
+    }
     let result = await ClientModel.create(clientBody);
+    let create_user_result = await UserModel.create(userBody)
     return res.status(200).json(result);
 };
 

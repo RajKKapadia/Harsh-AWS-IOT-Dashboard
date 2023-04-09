@@ -7,8 +7,10 @@ const logInUser = async (req, res) => {
     email:req.body.email
   })
   if(user){
-    let token = jwt.sign({ payload: user }, process.env.JWT_KEY)
-    res.cookie('AUTH_TOKEN',token)
+    let token = jwt.sign({ payload: user }, process.env.JWT_KEY, {
+      expiresIn: '24h', 
+    })
+
    return res.status(200).json({
       token
     })

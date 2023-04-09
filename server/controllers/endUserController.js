@@ -1,4 +1,5 @@
 const EndUserModel = require('../models/endUserModel');
+const UserModel = require('../models/userModel')
 
 const getAllEndUsers = async (req, res) => {
     let result = await EndUserModel.find({});
@@ -14,6 +15,14 @@ const getEndUserById = async (req, res) => {
 const createEndUser = async (req, res) => {
     let endUserBody = req.body;
     let result = await EndUserModel.create(endUserBody);
+     let userBody = {
+       name: req.body.name,
+       email: req.body.email,
+       password: req.body.password,
+       role: 'USER',
+     }
+    
+     let create_user_result = await UserModel.create(userBody)
     return res.status(200).json(result);
 };
 

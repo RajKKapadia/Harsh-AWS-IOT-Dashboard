@@ -24,13 +24,13 @@ const ClientForm = ({ getAllClient, setModalStatus, clientById, modalStatus }) =
     email: '',
     companyName: '',
     phone: '',
+    password: '',
   })
 
   useEffect(() => {
-    if(modalStatus.isEdit){
-          updateForm(clientById)
+    if (modalStatus.isEdit) {
+      updateForm(clientById)
     }
-
   }, [clientById])
 
   const onSubmit = () => {
@@ -44,7 +44,6 @@ const ClientForm = ({ getAllClient, setModalStatus, clientById, modalStatus }) =
     } else {
       addClient(form).then(({ data, error }) => {
         getAllClient()
-        console.log("add client::::",error,!error)
         if (!error) {
           setModalStatus({ isOpen: false, isEdit: false })
         }
@@ -55,11 +54,12 @@ const ClientForm = ({ getAllClient, setModalStatus, clientById, modalStatus }) =
   return (
     <Box>
       <Typography variant='h4' sx={{ borderBottom: '1px solid', padding: '1rem' }}>
-        Add Machine
+        Add Client
       </Typography>
       <Stack sx={{ p: '1rem' }} spacing='1.2rem'>
         <Input label='Client Name' onChange={(value) => updateForm({ ...form, name: value })} value={form?.name} />
         <Input label='Client Email' onChange={(value) => updateForm({ ...form, email: value })} value={form?.email} />
+        <Input label='Client Password' onChange={(value) => updateForm({ ...form, password: value })} value={form?.password} />
         <Input label='Client Phone number' onChange={(value) => updateForm({ ...form, phone: value })} value={form?.phone} />
         <Input label='Client Company' onChange={(value) => updateForm({ ...form, companyName: value })} value={form?.companyName} />
         <Button variant='contained' sx={{ fontSize: '1.3rem' }} onClick={() => onSubmit()}>

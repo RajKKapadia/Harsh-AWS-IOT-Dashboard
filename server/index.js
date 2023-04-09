@@ -25,12 +25,13 @@ const clientRoute = require('./routes/clientRoute');
 const endUserRoute = require('./routes/endUserRoute');
 const userRoute = require('./routes/userRoute');
 const loginRoute = require('./routes/loginRoute');
+const { verifyAuth } = require('./utils/helper');
 
 webApp.use('/', homeRoute.router);
-webApp.use('/machine', machineRoute.router);
+webApp.use('/machine', verifyAuth, machineRoute.router)
 webApp.use('/tag', tagRoute.router);
-webApp.use('/client', clientRoute.router);
-webApp.use('/endUser', endUserRoute.router);
+webApp.use('/client', verifyAuth, clientRoute.router)
+webApp.use('/endUser', verifyAuth, endUserRoute.router)
 webApp.use('/user', userRoute.router);
 webApp.use('/login', loginRoute.router);
 

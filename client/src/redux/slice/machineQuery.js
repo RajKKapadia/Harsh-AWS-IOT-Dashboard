@@ -11,47 +11,67 @@ export const MachineQuery = createApi({
         return {
           url: `/all`,
           headers:{
-            authorization:token
+            authorization:`${token}`
           }
         }},
     }),
     addMachine: builder.mutation({
       query: (body) => {
+         const token = getAuthToken()
         return {
           url: '/create',
           method: 'POST',
+           headers:{
+            authorization:`${token}`
+          },
           body,
         }
       },
     }),
     deleteMachine:builder.mutation({
       query:()=>{
+         const token = getAuthToken()
         return {
-          url:'/'
+          url: '/',
+          headers: {
+            authorization: `${token}`,
+          },
         }
       }
     }),
     getMachineById:builder.mutation({
       query:(id)=>{
+         const token = getAuthToken()
         return {
           url: `/one/${id}`,
+          headers: {
+            authorization: `${token}`,
+          },
         }
       }
     }),
     updateMachine:builder.mutation({
       query:({id,body})=>{
+         const token = getAuthToken()
         return {
           url: `/update/${id}`,
           method:'POST',
+           headers:{
+            authorization:`${token}`
+          },
           body
         }
       }
     }),
     deleteMachine:builder.mutation({
       query:(id)=>{
+         const token = getAuthToken()
         return {
-          url:`/${id}`,
-          method:'DELETE'
+          url: `/${id}`,
+          method: 'DELETE',
+          headers: {
+            authorization: `${token}`,
+          },
         }
       }
     })

@@ -1,5 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { NavLink } from 'react-router-dom'
+import { useGetProfileOfCurrentUserQuery } from "../../redux/slice/userQuery";
 import { isLoggedIn, loggedOut } from "../../utils/helperFunction/helperFunction";
 
 
@@ -8,10 +9,12 @@ import useStyles from "./navBar.styles";
 const Navbar = () => {
     const styles = useStyles();
     const isUserLoggedIn = isLoggedIn();
+
+    const {data:userProfile}= useGetProfileOfCurrentUserQuery('profile')
    
     const onLogOut = () =>{
       loggedOut();
-      window.location.reload();
+      window.location.replace('/');
     }
 
     return (

@@ -30,9 +30,16 @@ const updateUser = async (req, res) => {
     return res.status(200).json(result);
 };
 
+const getCurrentUserProfile = async (req,res,next)=>{
+
+    const { password, ...rest } = res.locals['userDetails']?.payload
+    return res.json(rest)
+}
+
 module.exports = {
     getAllUsers,
     createUser,
     getUserById,
-    updateUser
+    updateUser,
+    getCurrentUserProfile
 };

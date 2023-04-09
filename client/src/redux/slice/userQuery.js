@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { getAuthToken } from '../../utils/helperFunction/helperFunction'
 
 export const userQuery = createApi({
   reducerPath: 'userApi',
@@ -25,7 +26,18 @@ export const userQuery = createApi({
         }
       },
     }),
+    getProfileOfCurrentUser:builder.query({
+      query:()=>{
+        const token = getAuthToken()
+        return {
+          url: '/user/profile',
+          headers: {
+            authorization: `${token}`,
+          },
+        }
+      }
+    })
   }),
 })
 
-export const { useGetUserListQuery, useAddUserMutation, useLogInUserMutation } = userQuery
+export const { useGetUserListQuery, useAddUserMutation, useLogInUserMutation, useGetProfileOfCurrentUserQuery } = userQuery
