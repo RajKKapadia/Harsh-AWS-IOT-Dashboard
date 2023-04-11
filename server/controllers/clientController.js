@@ -21,6 +21,10 @@ const createClient = async (req, res) => {
         role:"CLIENT"
     }
     let result = await ClientModel.create(clientBody);
+    userBody = {
+        ...userBody,
+        clientId:result?._id
+    }
     let create_user_result = await UserModel.create(userBody)
     return res.status(200).json(result);
 };

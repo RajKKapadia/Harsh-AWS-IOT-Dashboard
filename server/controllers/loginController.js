@@ -6,6 +6,7 @@ const logInUser = async (req, res) => {
   let user = await UserModel.findOne({
     email:req.body.email
   })
+  console.log('user--',user)
   if(user){
     let token = jwt.sign({ payload: user }, process.env.JWT_KEY, {
       expiresIn: '24h', 

@@ -1,4 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { NavLink } from 'react-router-dom'
 import { useGetProfileOfCurrentUserQuery } from "../../redux/slice/userQuery";
 import { isLoggedIn, loggedOut } from "../../utils/helperFunction/helperFunction";
@@ -10,12 +11,21 @@ const Navbar = () => {
     const styles = useStyles();
     const isUserLoggedIn = isLoggedIn();
 
-    const {data:userProfile}= useGetProfileOfCurrentUserQuery('profile')
+    const {data:userProfile,isError:profileApiError}= useGetProfileOfCurrentUserQuery('profile',{
+      skip:!isLoggedIn()
+    })
    
     const onLogOut = () =>{
       loggedOut();
       window.location.replace('/');
     }
+
+    useEffect(()=>{
+      if(profileApiError){
+        onLogOut()
+      }
+    },[profileApiError])
+
 
     return (
       <Box className={styles.container}>

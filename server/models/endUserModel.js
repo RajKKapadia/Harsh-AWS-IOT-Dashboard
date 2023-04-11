@@ -7,6 +7,7 @@ const endUserSchema = new Schema({
     email: String,
     phone: String,
     password: String,
+    clientId:String,
     machines: { type: Array, default: [] },
     createdAt: { type: Date, default: Date.now() },
     isDeleted: { type: Boolean, default: false }

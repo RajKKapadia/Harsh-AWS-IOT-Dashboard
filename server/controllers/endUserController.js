@@ -2,7 +2,12 @@ const EndUserModel = require('../models/endUserModel');
 const UserModel = require('../models/userModel')
 
 const getAllEndUsers = async (req, res) => {
-    let result = await EndUserModel.find({});
+      const userData = res.locals['userDetails']?.payload
+      let clientId
+      if (userData?.role === 'CLIENT' && userData?.clientId) {
+        clientId = userData?.clientId 
+      }
+    let result = await EndUserModel.find({clientId:clientId});
     return res.status(200).json(result);
 };
 
@@ -20,6 +25,7 @@ const createEndUser = async (req, res) => {
        email: req.body.email,
        password: req.body.password,
        role: 'USER',
+       clientId:req.body.clientId
      }
     
      let create_user_result = await UserModel.create(userBody)

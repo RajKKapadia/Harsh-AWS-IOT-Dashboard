@@ -2,9 +2,12 @@ import { Box, Button, Stack, TextField, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useEffect, useState } from 'react'
 import Input from '../../../../components/common/Input/input'
-import { useAddClientMutation, useUpdateClientMutation } from '../../../../redux/slice/clientQuery'
+import InputSelect from '../../../../components/common/Select/select'
+import { useAddClientMutation, useGetClientListQuery, useUpdateClientMutation } from '../../../../redux/slice/clientQuery'
 import { useAddEndUserMutation, useUpdateEndUserMutation } from '../../../../redux/slice/endUserQuery'
 import { useAddMachineMutation, useUpdateMachineMutation } from '../../../../redux/slice/machineQuery'
+import { useGetProfileOfCurrentUserQuery } from '../../../../redux/slice/userQuery'
+import { isLoggedIn } from '../../../../utils/helperFunction/helperFunction'
 
 const useStyles = makeStyles((theme) => ({
   inputLabel: {
@@ -20,20 +23,41 @@ const EndUsersForm = ({ getAllEndUsers, setModalStatus, endUsersById, modalStatu
   const [updateEndUser] = useUpdateEndUserMutation({
     fixedCacheKey: 'update-end-user',
   })
+  const { data: userProfile, isError: profileApiError } = useGetProfileOfCurrentUserQuery('profile', {
+    skip: !isLoggedIn(),
+  })
+    const { data: clientData, isLoading, isSuccess, refetch: getAllClient, isFetching } = useGetClientListQuery('client')
+
   const [form, updateForm] = useState({
     name: '',
     email: '',
     companyName: '',
     phone: '',
-    password:''
+    password: '',
   })
+    const [clientOptions, setClientOptions] = useState([])
 
   useEffect(() => {
-    if(modalStatus.isEdit){
-          updateForm(endUsersById)
+    if (modalStatus.isEdit) {
+      updateForm(endUsersById)
     }
-
   }, [endUsersById])
+
+  useEffect(() => {
+    const options = clientData?.map((client) => {
+      return {
+        value: client?._id,
+        label: client?.name,
+      }
+    })
+    setClientOptions(options)
+  }, [clientData])
+
+  useEffect(()=>{
+    if(userProfile?.role === 'CLIENT'){
+      updateForm({...form,clientId:userProfile?.clientId})
+    }
+  },[userProfile])
 
   const onSubmit = () => {
     if (modalStatus?.isEdit) {
@@ -46,7 +70,7 @@ const EndUsersForm = ({ getAllEndUsers, setModalStatus, endUsersById, modalStatu
     } else {
       addEndUser(form).then(({ data, error }) => {
         getAllEndUsers()
-        console.log("add client::::",error,!error)
+        console.log('add client::::', error, !error)
         if (!error) {
           setModalStatus({ isOpen: false, isEdit: false })
         }
@@ -64,6 +88,15 @@ const EndUsersForm = ({ getAllEndUsers, setModalStatus, endUsersById, modalStatu
         <Input label='End-user Email' onChange={(value) => updateForm({ ...form, email: value })} value={form?.email} />
         <Input label='End-user Password' onChange={(value) => updateForm({ ...form, password: value })} value={form?.password} />
         <Input label='End-user Phone number' onChange={(value) => updateForm({ ...form, phone: value })} value={form?.phone} />
+        {userProfile?.role === 'ADMIN' && (
+          <InputSelect
+            OPTIONS={clientOptions}
+            label='Client'
+            onChange={(e) => updateForm({ ...form, clientId: e.target.value })}
+            value={form?.clientId}
+            disabled={modalStatus?.isEdit}
+          />
+        )}
         <Input label='End-user Company' onChange={(value) => updateForm({ ...form, companyName: value })} value={form?.companyName} />
         <Button variant='contained' sx={{ fontSize: '1.3rem' }} onClick={() => onSubmit()}>
           {modalStatus?.isEdit ? 'Update' : 'Add'}

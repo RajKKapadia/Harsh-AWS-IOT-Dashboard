@@ -6,6 +6,7 @@ const userSchema = new Schema({
     email: String,
     password: String,
     role: String,
+    clientId:String,
     createdAt: { type: Date, default: Date.now() },
     isDeleted: { type: Boolean, default: false }
 });

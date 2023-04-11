@@ -27,12 +27,13 @@ const getLinks = (role)=>{
     {
       name: 'Clients',
       id: 'clients',
-      hide: role === 'CLIENT' || role === 'END_USER' ? true : false,
+      hide: role === 'CLIENT' || role === 'USER' ? true : false,
     },
     {
       name: 'Users',
       id: 'users',
-      hide: role === 'END_USER' ? true : false,
+      hide: role === 'USER' ? true : false,
+
     },
   ]
 }
@@ -41,7 +42,7 @@ const Dashboard = () => {
   const navigate = useNavigate()
   const { data: userProfile } = useGetProfileOfCurrentUserQuery('profile')
 
-  const links = getLinks(userProfile.role)
+  const links = getLinks(userProfile?.role)
 
   return (
     <Box>

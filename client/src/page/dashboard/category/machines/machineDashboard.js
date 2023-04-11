@@ -9,6 +9,8 @@ import { useDeleteMachineMutation, useGetMachineByIdMutation, useGetMachineListQ
 import MachineForm from './machineForm'
 import DeleteButton from '../../../../components/common/Buttons/DeleteButton/deleteButton'
 import EditButton from '../../../../components/common/Buttons/EditButton/editButton'
+import { useGetProfileOfCurrentUserQuery } from '../../../../redux/slice/userQuery'
+import { isLoggedIn } from '../../../../utils/helperFunction/helperFunction'
 
 const getMachinesRowData = (machines) => {
   const row = machines?.map((machine) => {
@@ -16,8 +18,8 @@ const getMachinesRowData = (machines) => {
       name: machine?.name,
       type: machine?.type ? machine?.type : '',
       tags: machine?.machineData?.length > 0 ? machine?.machineData?.map((item) => item?.tag)?.join(', ') : '',
-      machineId:machine?.machineId,
-      maker:machine?.maker,
+      machineId: machine?.machineId,
+      maker: machine?.maker,
       id: machine?._id,
     }
   })
@@ -37,10 +39,13 @@ const style = {
 }
 
 const MachineDashboard = () => {
-  const { data, isLoading, isSuccess,refetch:getAllMachine,isFetching } = useGetMachineListQuery('machine')
-  const [machineById,setMachineById] = useState()
+  const { data, isLoading, isSuccess, refetch: getAllMachine, isFetching } = useGetMachineListQuery('machine')
+  const { data: userProfile, isError: profileApiError } = useGetProfileOfCurrentUserQuery('profile', {
+    skip: !isLoggedIn(),
+  })
+  const [machineById, setMachineById] = useState()
   const [getMachineById] = useGetMachineByIdMutation({
-    fixedCacheKey:'machine-by-id'
+    fixedCacheKey: 'machine-by-id',
   })
   const [deleteMachine] = useDeleteMachineMutation()
 
@@ -50,20 +55,19 @@ const MachineDashboard = () => {
     isEdit: false,
   })
 
-  const onEdit = (id)=>{
-    getMachineById(id).then(({data,error})=>{
+  const onEdit = (id) => {
+    getMachineById(id).then(({ data, error }) => {
       setMachineById(data)
-      setModalStatus({isOpen:true,isEdit:true})
+      setModalStatus({ isOpen: true, isEdit: true })
     })
   }
 
-  const onDelete = (id)=>{
-    deleteMachine(id).then(()=>{
+  const onDelete = (id) => {
+    deleteMachine(id).then(() => {
       getAllMachine()
     })
   }
 
-  
   const columns = [
     {
       Header: 'Delete',
@@ -74,7 +78,7 @@ const MachineDashboard = () => {
       },
       hideLabel: true,
       Cell: (tableInstance) => {
-        return <DeleteButton onClick={()=>onDelete(tableInstance?.row?.original.id)} />
+        return <DeleteButton onClick={() => onDelete(tableInstance?.row?.original.id)} />
       },
       Filter: ColumnFilter,
     },
@@ -88,7 +92,7 @@ const MachineDashboard = () => {
 
       hideLabel: true,
       Cell: (tableInstance) => {
-        return <EditButton onClick={()=>onEdit(tableInstance?.row?.original.id)}/>
+        return <EditButton onClick={() => onEdit(tableInstance?.row?.original.id)} />
       },
       Filter: ColumnFilter,
     },
@@ -123,26 +127,24 @@ const MachineDashboard = () => {
 
   useEffect(() => {
     setMachineData(getMachinesRowData(data))
-  }, [data,isFetching])
-
-
-
-
+  }, [data, isFetching])
 
   if (isLoading) return <Typography variant='h3'>Loading....</Typography>
   return (
     <Box sx={{ m: '2rem' }}>
       <Typography variant='h4'>Machine</Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'row-reverse', p: '2rem 0' }}>
-        <Button
-          variant='contained'
-          sx={{ fontSize: '1.2rem' }}
-          onClick={() => {
-            setModalStatus({ isOpen: true, isEdit: false })
-          }}>
-          {modalStatus?.isEdit ? 'Update Machine' : 'Add Machine'}
-        </Button>
-      </Box>
+      {userProfile?.role === 'ADMIN' && (
+        <Box sx={{ display: 'flex', flexDirection: 'row-reverse', p: '2rem 0' }}>
+          <Button
+            variant='contained'
+            sx={{ fontSize: '1.2rem' }}
+            onClick={() => {
+              setModalStatus({ isOpen: true, isEdit: false })
+            }}>
+            {modalStatus?.isEdit ? 'Update Machine' : 'Add Machine'}
+          </Button>
+        </Box>
+      )}
       {machineData && <Table COLUMNS={columns} DATA={machineData} />}
 
       <Modal open={modalStatus?.isOpen} onClose={() => setModalStatus({ isOpen: false, isEdit: false })}>
