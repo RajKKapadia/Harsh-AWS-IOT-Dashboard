@@ -29,7 +29,7 @@ const { verifyAuth } = require('./utils/helper');
 
 webApp.use('/', homeRoute.router);
 webApp.use('/machine', verifyAuth, machineRoute.router)
-webApp.use('/tag', tagRoute.router);
+webApp.use('/tag', verifyAuth, tagRoute.router)
 webApp.use('/client', verifyAuth, clientRoute.router)
 webApp.use('/endUser', verifyAuth, endUserRoute.router)
 webApp.use('/user', userRoute.router);

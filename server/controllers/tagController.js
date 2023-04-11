@@ -31,6 +31,13 @@ const createOrUpdateTag = async (req, res) => {
     return res.status(200).json(result);
 };
 
+const gettagsByMachineId = async (req,res) =>{
+    let machineId = req.params.id
+    let tag = await TagModel.find({ machineId: machineId });
+    return res.status(200).json(tag)
+}
+
 module.exports = {
-    createOrUpdateTag
+    createOrUpdateTag,
+    gettagsByMachineId
 };

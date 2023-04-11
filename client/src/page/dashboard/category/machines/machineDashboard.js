@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import Modal from '@mui/material/Modal'
+import { useNavigate } from 'react-router-dom'
 
 import { ColumnFilter } from '../../../../components/common/Table/table'
 import Table from '../../../../components/common/Table/table'
@@ -55,11 +56,17 @@ const MachineDashboard = () => {
     isEdit: false,
   })
 
-  const onEdit = (id) => {
-    getMachineById(id).then(({ data, error }) => {
-      setMachineById(data)
-      setModalStatus({ isOpen: true, isEdit: true })
-    })
+  const navigate = useNavigate()
+  const onEdit = (id,machineId) => {
+    if(userProfile?.role === 'USER'){
+      navigate(`/dashboard/machines-tags/${machineId}`)
+    }else{
+       getMachineById(id).then(({ data, error }) => {
+         setMachineById(data)
+         setModalStatus({ isOpen: true, isEdit: true })
+       })
+    }
+   
   }
 
   const onDelete = (id) => {
@@ -92,7 +99,7 @@ const MachineDashboard = () => {
 
       hideLabel: true,
       Cell: (tableInstance) => {
-        return <EditButton onClick={() => onEdit(tableInstance?.row?.original.id)} />
+        return <EditButton onClick={() => onEdit(tableInstance?.row?.original.id, tableInstance?.row?.original.machineId)} />
       },
       Filter: ColumnFilter,
     },

@@ -7,7 +7,13 @@ const getAllEndUsers = async (req, res) => {
       if (userData?.role === 'CLIENT' && userData?.clientId) {
         clientId = userData?.clientId 
       }
-    let result = await EndUserModel.find({clientId:clientId});
+    let result 
+    if(clientId){
+      result = await EndUserModel.find({ clientId: clientId })
+    }else{
+      result = await EndUserModel.find({  })
+    }
+ 
     return res.status(200).json(result);
 };
 

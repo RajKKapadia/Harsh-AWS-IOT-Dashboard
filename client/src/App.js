@@ -12,6 +12,7 @@ import Dashboard from './page/dashboard/main/dashboard'
 import DashboardCategory from './page/dashboard/category/dashboardCategory'
 import LogIn from './page/auth/logIn';
 import Signup from './page/auth/signup';
+import MachineTags from './page/dashboard/tags/machineTags';
 
 // const queryClient = new QueryClient()
 
@@ -29,6 +30,7 @@ const App = () => {
               <Route path='/signup' element={<Signup />}></Route>
               <Route path='/dashboard' element={<Dashboard />}></Route>
               <Route path='/dashboard/:category' element={<DashboardCategory />}></Route>
+              <Route path='/dashboard/machines-tags/:machineId' element={<MachineTags/>}></Route>
             </Routes>
           </Router>
         </ThemeProvider>

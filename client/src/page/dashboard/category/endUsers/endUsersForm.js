@@ -38,10 +38,16 @@ const EndUsersForm = ({ getAllEndUsers, setModalStatus, endUsersById, modalStatu
     const [clientOptions, setClientOptions] = useState([])
 
   useEffect(() => {
-    if (modalStatus.isEdit) {
-      updateForm(endUsersById)
+    console.log("end user by id:::",endUsersById,modalStatus)
+    let data = { ...form, ...endUsersById }
+    if (userProfile?.role === 'CLIENT') {
+      data = {...data, clientId: userProfile?.clientId }
     }
-  }, [endUsersById])
+    if (modalStatus.isEdit) {
+      updateForm(data)
+    }
+    
+  }, [endUsersById,userProfile])
 
   useEffect(() => {
     const options = clientData?.map((client) => {
@@ -54,9 +60,7 @@ const EndUsersForm = ({ getAllEndUsers, setModalStatus, endUsersById, modalStatu
   }, [clientData])
 
   useEffect(()=>{
-    if(userProfile?.role === 'CLIENT'){
-      updateForm({...form,clientId:userProfile?.clientId})
-    }
+    
   },[userProfile])
 
   const onSubmit = () => {
@@ -70,18 +74,18 @@ const EndUsersForm = ({ getAllEndUsers, setModalStatus, endUsersById, modalStatu
     } else {
       addEndUser(form).then(({ data, error }) => {
         getAllEndUsers()
-        console.log('add client::::', error, !error)
+        
         if (!error) {
           setModalStatus({ isOpen: false, isEdit: false })
         }
       })
     }
   }
-
+  console.log(' :::',form)
   return (
     <Box>
       <Typography variant='h4' sx={{ borderBottom: '1px solid', padding: '1rem' }}>
-        Add Machine
+        End User
       </Typography>
       <Stack sx={{ p: '1rem' }} spacing='1.2rem'>
         <Input label='End-user Name' onChange={(value) => updateForm({ ...form, name: value })} value={form?.name} />

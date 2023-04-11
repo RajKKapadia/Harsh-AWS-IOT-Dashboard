@@ -11,7 +11,7 @@ const getAllMachines = async (req, res) => {
     clientId = userData?.clientId //mongoose.Types.ObjectId(userData?._id);
     result = await MachineModel.find({clientId:clientId })
   }else{
-    result = await MachineModel.find({clientId:clientId })
+    result = await MachineModel.find({ })
   }
 
   
