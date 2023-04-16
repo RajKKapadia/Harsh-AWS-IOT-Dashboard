@@ -31,7 +31,8 @@ const createEndUser = async (req, res) => {
        email: req.body.email,
        password: req.body.password,
        role: 'USER',
-       clientId:req.body.clientId
+       clientId:req.body.clientId,
+       endUserId:result?._id
      }
     
      let create_user_result = await UserModel.create(userBody)

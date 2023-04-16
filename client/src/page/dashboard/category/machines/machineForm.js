@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Input from '../../../../components/common/Input/input'
 import InputSelect from '../../../../components/common/Select/select'
 import { useGetClientListQuery } from '../../../../redux/slice/clientQuery'
+import { useGetEndUserListQuery } from '../../../../redux/slice/endUserQuery'
 import { useAddMachineMutation, useUpdateMachineMutation } from '../../../../redux/slice/machineQuery'
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +22,7 @@ const MachineForm = ({ getAllMachine, setModalStatus, machineById, modalStatus }
     fixedCacheKey: 'update-machine',
   })
   const { data: clientData, isLoading, isSuccess, refetch: getAllClient, isFetching } = useGetClientListQuery('client')
+  const { data: endUserData, isLoading:isEndUserLoading, refetch: getAllEndUser, isFetching:isEndUserFetching } = useGetEndUserListQuery('end-user')
 
   const [form, updateForm] = useState({
     name: '',
@@ -28,8 +30,10 @@ const MachineForm = ({ getAllMachine, setModalStatus, machineById, modalStatus }
     machineId: '',
     maker: '',
     clientId: '',
+    endUserId:''
   })
   const [clientOptions, setClientOptions] = useState([])
+  const [endUserOptions,setEndUserOptions] = useState([]);
   const [selectedClientOption, setSelectedClientOption] = useState()
 
   useEffect(() => {
@@ -48,6 +52,17 @@ const MachineForm = ({ getAllMachine, setModalStatus, machineById, modalStatus }
     setClientOptions(options)
   }, [clientData])
 
+    useEffect(() => {
+      const options = endUserData?.map((endUser) => {
+        return {
+          value: endUser?._id,
+          label: endUser?.name,
+        }
+      })
+      setEndUserOptions(options)
+    }, [endUserData])
+
+
   const onSubmit = () => {
     if (modalStatus?.isEdit) {
       updateMachine({ body: form, id: machineById?._id }).then(({ data, error }) => {
@@ -65,7 +80,7 @@ const MachineForm = ({ getAllMachine, setModalStatus, machineById, modalStatus }
       })
     }
   }
-  console.log('form:::::::', form)
+  console.log('form:::::::', endUserOptions)
   return (
     <Box>
       <Typography variant='h4' sx={{ borderBottom: '1px solid', padding: '1rem' }}>
@@ -83,6 +98,15 @@ const MachineForm = ({ getAllMachine, setModalStatus, machineById, modalStatus }
           value={form?.clientId}
           disabled={modalStatus?.isEdit}
         />
+        {endUserData && (
+          <InputSelect
+            OPTIONS={endUserOptions}
+            label='End User'
+            onChange={(e) => updateForm({ ...form, endUserId: e.target.value })}
+            value={form?.endUserId}
+           
+          />
+        )}
         <Button variant='contained' sx={{ fontSize: '1.3rem' }} onClick={() => onSubmit()}>
           {modalStatus?.isEdit ? 'Update' : 'Add'}
         </Button>

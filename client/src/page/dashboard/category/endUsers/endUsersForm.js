@@ -65,14 +65,33 @@ const EndUsersForm = ({ getAllEndUsers, setModalStatus, endUsersById, modalStatu
 
   const onSubmit = () => {
     if (modalStatus?.isEdit) {
-      updateEndUser({ body: form, id: endUsersById?._id }).then(({ data, error }) => {
+      let payload = {
+        ...form,
+      }
+      if (userProfile?.role === 'CLIENT') {
+        payload = {
+          ...payload,
+          clientId: userProfile?.clientId,
+        }
+      }
+      updateEndUser({ body: payload, id: endUsersById?._id }).then(({ data, error }) => {
         getAllEndUsers()
         if (!error) {
           setModalStatus({ isOpen: false, isEdit: false })
         }
       })
     } else {
-      addEndUser(form).then(({ data, error }) => {
+      let payload = {
+        ...form
+      }
+      if(userProfile?.role === 'CLIENT'){
+        payload = {
+          ...payload,
+          clientId:userProfile?.clientId
+        }
+      }
+      console.log("end user form:::::",form)
+      addEndUser(payload).then(({ data, error }) => {
         getAllEndUsers()
         
         if (!error) {

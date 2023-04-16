@@ -17,7 +17,7 @@ const Navbar = () => {
    
     const onLogOut = () =>{
       loggedOut();
-      window.location.replace('/');
+      window.location.replace('/login');
     }
 
     useEffect(()=>{

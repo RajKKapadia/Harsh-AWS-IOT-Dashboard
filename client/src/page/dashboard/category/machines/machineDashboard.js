@@ -96,9 +96,9 @@ const getMachineColumn = (onDelete,onEdit,userProfile) =>{
       case 'USER':
         return [...commonColumns,...openDashboard]
       case 'CLIENT':
-        return [...hideNdeleteColumn,...commonColumns,...openDashboard]
+        return [...hideNdeleteColumn,...commonColumns]
       case 'ADMIN':
-        return [...hideNdeleteColumn, ...commonColumns, ...openDashboard]
+        return [...hideNdeleteColumn, ...commonColumns]
     }
 
    

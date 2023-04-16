@@ -7,9 +7,13 @@ const getAllMachines = async (req, res) => {
   const userData = res.locals['userDetails']?.payload
 
   let clientId,result
-  if ((userData?.role === 'CLIENT' || userData?.role === 'USER') && userData?._id) {
+  if ((userData?.role === 'CLIENT') && userData?._id) {
     clientId = userData?.clientId //mongoose.Types.ObjectId(userData?._id);
     result = await MachineModel.find({clientId:clientId })
+  }else if (userData?.role === 'USER') {
+    console.log('user data--',userData)
+    endUserId = userData?.endUserId
+    result = await MachineModel.find({ endUserId: endUserId})
   }else{
     result = await MachineModel.find({ })
   }
