@@ -13,6 +13,97 @@ import EditButton from '../../../../components/common/Buttons/EditButton/editBut
 import { useGetProfileOfCurrentUserQuery } from '../../../../redux/slice/userQuery'
 import { isLoggedIn } from '../../../../utils/helperFunction/helperFunction'
 
+
+const getMachineColumn = (onDelete,onEdit,userProfile) =>{
+  const hideNdeleteColumn = [
+    {
+      Header: 'Delete',
+      commonStyle: {
+        width: '5rem',
+        textTransform: 'capitalize',
+        textAlign: 'center',
+      },
+      hideLabel: true,
+      Cell: (tableInstance) => {
+        return <DeleteButton onClick={() => onDelete(tableInstance?.row?.original.id)} />
+      },
+      Filter: ColumnFilter,
+    },
+    {
+      Header: 'Edit',
+      commonStyle: {
+        width: '5rem',
+        textTransform: 'capitalize',
+        textAlign: 'center',
+      },
+
+      hideLabel: true,
+      Cell: (tableInstance) => {
+        return <EditButton onClick={() => onEdit(tableInstance?.row?.original.id, tableInstance?.row?.original.machineId)} />
+      },
+      Filter: ColumnFilter,
+    },
+  ]
+  const tagColumn = [
+    {
+      Header: 'Tags',
+      accessor: 'tags',
+      Filter: ColumnFilter,
+    },
+  ]
+    const commonColumns = [  
+      {
+        Header: 'ID',
+        accessor: 'machineId',
+        Filter: ColumnFilter,
+      },
+
+      {
+        Header: 'Name',
+        accessor: 'name',
+        Filter: ColumnFilter,
+      },
+      {
+        Header: 'Type',
+        accessor: 'type',
+        Filter: ColumnFilter,
+      },
+      {
+        Header: 'Maker',
+        accessor: 'maker',
+        Filter: ColumnFilter,
+      },
+    ]
+
+    const openDashboard = [
+      {
+        Header: 'Open Dashboard',
+        commonStyle: {
+          width: '10rem',
+          textTransform: 'capitalize',
+          textAlign: 'center',
+        },
+
+        hideLabel: true,
+        Cell: (tableInstance) => {
+          return <Button variant='outlined' onClick={() => onEdit(tableInstance?.row?.original.id, tableInstance?.row?.original.machineId,true)} >Open Dashboard</Button>
+        },
+        Filter: ColumnFilter,
+      },
+    ]
+
+    switch(userProfile?.role){
+      case 'USER':
+        return [...commonColumns,...openDashboard]
+      case 'CLIENT':
+        return [...hideNdeleteColumn,...commonColumns,...openDashboard]
+      case 'ADMIN':
+        return [...hideNdeleteColumn, ...commonColumns, ...openDashboard]
+    }
+
+   
+}
+
 const getMachinesRowData = (machines) => {
   const row = machines?.map((machine) => {
     return {
@@ -57,8 +148,8 @@ const MachineDashboard = () => {
   })
 
   const navigate = useNavigate()
-  const onEdit = (id,machineId) => {
-    if(userProfile?.role === 'USER'){
+  const onEdit = (id,machineId,openTagDashboard) => {
+    if(openTagDashboard){
       navigate(`/dashboard/machines-tags/${machineId}`)
     }else{
        getMachineById(id).then(({ data, error }) => {
@@ -75,62 +166,12 @@ const MachineDashboard = () => {
     })
   }
 
-  const columns = [
-    {
-      Header: 'Delete',
-      commonStyle: {
-        width: '5rem',
-        textTransform: 'capitalize',
-        textAlign: 'center',
-      },
-      hideLabel: true,
-      Cell: (tableInstance) => {
-        return <DeleteButton onClick={() => onDelete(tableInstance?.row?.original.id)} />
-      },
-      Filter: ColumnFilter,
-    },
-    {
-      Header: 'Edit',
-      commonStyle: {
-        width: '5rem',
-        textTransform: 'capitalize',
-        textAlign: 'center',
-      },
+  let columns
+  if(userProfile?.role){
+    columns = getMachineColumn(onDelete,onEdit,userProfile)
+  }
 
-      hideLabel: true,
-      Cell: (tableInstance) => {
-        return <EditButton onClick={() => onEdit(tableInstance?.row?.original.id, tableInstance?.row?.original.machineId)} />
-      },
-      Filter: ColumnFilter,
-    },
-    {
-      Header: 'ID',
-      accessor: 'machineId',
-      Filter: ColumnFilter,
-    },
 
-    {
-      Header: 'Name',
-      accessor: 'name',
-      Filter: ColumnFilter,
-    },
-    {
-      Header: 'Type',
-      accessor: 'type',
-      Filter: ColumnFilter,
-    },
-    {
-      Header: 'Maker',
-      accessor: 'maker',
-      Filter: ColumnFilter,
-    },
-
-    {
-      Header: 'Tags',
-      accessor: 'tags',
-      Filter: ColumnFilter,
-    },
-  ]
 
   useEffect(() => {
     setMachineData(getMachinesRowData(data))
