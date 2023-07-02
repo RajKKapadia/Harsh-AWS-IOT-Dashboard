@@ -61,6 +61,13 @@ const ClientDashboard = () => {
         getAllClient()
       })
     }
+      useEffect(() => {
+        if (!isFetching) {
+          setTimeout(() => {
+            getAllClient()
+          }, 10000)
+        }
+      }, [isFetching])
 
 
   const columns = [

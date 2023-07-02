@@ -46,18 +46,19 @@ const Dashboard = () => {
 
   return (
     <Box>
+      <Box sx={{ height: '3rem', background: '#dfe4ed' }}></Box>
       <Box className={styles.linkContainer}>
         {links?.map((item) => {
-          if(item?.hide) return
+          if (item?.hide) return
           return (
-            <Button
+            <Box
               className={styles.linkButton}
-              variant='outlined'
+             
               onClick={() => {
                 navigate(`/dashboard/${item?.id}`)
               }}>
               {item?.name}
-            </Button>
+            </Box>
           )
         })}
       </Box>

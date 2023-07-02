@@ -177,6 +177,15 @@ const MachineDashboard = () => {
     setMachineData(getMachinesRowData(data))
   }, [data, isFetching])
 
+  useEffect(() => {
+    if(!isFetching){
+       setTimeout(() => {
+         getAllMachine()
+       }, 10000)
+    }
+   
+  }, [isFetching])
+
   if (isLoading) return <Typography variant='h3'>Loading....</Typography>
   return (
     <Box sx={{ m: '2rem' }}>

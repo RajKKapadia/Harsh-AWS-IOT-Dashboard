@@ -50,6 +50,14 @@ const EndUsersDashboard = () => {
     isEdit: false,
   })
 
+    useEffect(() => {
+      if (!isFetching) {
+        setTimeout(() => {
+          getAllEndUser()
+        }, 10000)
+      }
+    }, [isFetching])
+
   const onEdit = (id) => {
     getEndUserById(id).then(({ data, error }) => {
       setEndUserById(data)

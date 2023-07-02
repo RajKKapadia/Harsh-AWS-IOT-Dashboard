@@ -14,6 +14,16 @@ const useStyles = makeStyles((theme) => ({
     height: 'calc(100vh - 5rem)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    flexDirection:'column',
+    background:'radial-gradient(circle,blue, rgba(255,255,255,1) 100%)',
+
+    '& img':{
+      width:'15rem',
+      marginBottom:'1rem'
+    }
   
   },
   formContainer: {
@@ -22,9 +32,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '0.3rem',
     padding: '3rem ',
     background: theme.palette.primary.contrastText,
-    position:'absolute',
-    right:'10rem',
-    top:'20rem',
+    // position:'absolute',
+    // right:'10rem',
+    // top:'20rem',
     height: 'fit-content',
   },
   actionbutton:{
@@ -54,9 +64,10 @@ const LogIn = () => {
 
 
   return (
-    <Box sx={{ backgroundImage: `url(${BG_IMG})` }} className={styles.container}>
+    <Box  className={styles.container}>
+      <img src='/logo.png'></img>
       <Stack className={styles.formContainer} spacing={'1rem'}>
-        <Typography variant='h6' sx={{ mb: '1rem' }}>
+        <Typography variant='h6' sx={{ mb: '1rem', color: '#007bff', fontWeight:'600' }}>
           Log in
         </Typography>
         <Input label='Email' onChange={(value) => updateForm({ ...form, email: value })} />
@@ -64,7 +75,7 @@ const LogIn = () => {
         <Typography variant='subtitle1'>
           Don't have account yet? <Link to='/signup'>Sign-up</Link> here
         </Typography>
-        <Button variant='contained' className={styles.actionbutton} onClick={()=>onSubmit()}>
+        <Button variant='contained' className={styles.actionbutton} onClick={() => onSubmit()}>
           Sign-In
         </Button>
       </Stack>

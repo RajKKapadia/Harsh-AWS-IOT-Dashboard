@@ -98,7 +98,7 @@ const MachineForm = ({ getAllMachine, setModalStatus, machineById, modalStatus }
           value={form?.clientId}
           disabled={modalStatus?.isEdit}
         />
-        {endUserData && (
+        {endUserData  && (
           <InputSelect
             OPTIONS={endUserOptions}
             label='End User'

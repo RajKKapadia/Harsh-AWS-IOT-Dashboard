@@ -1,37 +1,59 @@
-import { Box, Stack, Typography } from "@mui/material";
-import { useEffect } from "react";
-import { NavLink } from 'react-router-dom'
-import { useGetProfileOfCurrentUserQuery } from "../../redux/slice/userQuery";
-import { isLoggedIn, loggedOut } from "../../utils/helperFunction/helperFunction";
+import { Box, Stack, Typography } from '@mui/material'
+import { useEffect } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useGetProfileOfCurrentUserQuery } from '../../redux/slice/userQuery'
+import { isLoggedIn, loggedOut } from '../../utils/helperFunction/helperFunction'
 
+import useStyles from './navBar.styles'
 
-import useStyles from "./navBar.styles";
+const getLinks = (role) => {
+  return [
+    {
+      name: 'Machines',
+      id: 'machines',
+    },
+    {
+      name: 'Clients',
+      id: 'clients',
+      hide: role === 'CLIENT' || role === 'USER' ? true : false,
+    },
+    {
+      name: 'Users',
+      id: 'users',
+      hide: role === 'USER' ? true : false,
+    },
+  ]
+}
 
-const Navbar = () => {
-    const styles = useStyles();
-    const isUserLoggedIn = isLoggedIn();
+const Navbar = ({ children }) => {
+  const styles = useStyles()
+  const isUserLoggedIn = isLoggedIn()
+  const navigate = useNavigate()
 
-    const {data:userProfile,isError:profileApiError}= useGetProfileOfCurrentUserQuery('profile',{
-      skip:!isLoggedIn()
-    })
+  const { data: userProfile, isError: profileApiError } = useGetProfileOfCurrentUserQuery('profile', {
+    skip: !isLoggedIn(),
+  })
    
-    const onLogOut = () =>{
-      loggedOut();
-      window.location.replace('/login');
+
+    const links = getLinks(userProfile?.role)
+
+  const onLogOut = () => {
+    loggedOut()
+    window.location.replace('/login')
+  }
+
+  useEffect(() => {
+    if (profileApiError) {
+      onLogOut()
     }
+  }, [profileApiError])
 
-    useEffect(()=>{
-      if(profileApiError){
-        onLogOut()
-      }
-    },[profileApiError])
-
-
-    return (
+  return (
+    <Box>
       <Box className={styles.container}>
         <Stack direction='row' sx={{ alignItems: 'center' }}>
-          <Typography variant='h4' sx={{ fontWeight: '500' }}>
-            VISCON
+          <Typography variant='h4' sx={{ fontWeight: '500', display: 'flex', alignItems: 'center' }}>
+            <img src='/logo.png' height='40px'></img>
           </Typography>
           <Box className={styles.linkContainer}>
             <NavLink to='/' className={styles.navLink}>
@@ -56,7 +78,35 @@ const Navbar = () => {
           )}
         </Stack>
       </Box>
-    )
-};
+      {isUserLoggedIn && (
+        <Box className={styles.sideBar}>
+          <Box
+            className={`${styles.sideBarItem} ${window.location.pathname === '/dashboard' ? styles.activeSideBarItem : ''}`}
+            onClick={() => navigate('/dashboard')}>
+            Dashboard
+          </Box>
+          <Box
+            className={`${styles.sideBarItem} ${window.location.pathname === '/dashboard/machines' ? styles.activeSideBarItem : ''}`}
+            onClick={() => navigate('/dashboard/machines')}>
+            Machines
+          </Box>
+          <Box
+            className={`${styles.sideBarItem} ${window.location.pathname === '/dashboard/clients' ? styles.activeSideBarItem : ''}`}
+            onClick={() => navigate('/dashboard/clients')}>
+            Client
+          </Box>
+          <Box
+            className={`${styles.sideBarItem} ${window.location.pathname === '/dashboard/users' ? styles.activeSideBarItem : ''}`}
+            onClick={() => navigate('/dashboard/users')}>
+            {' '}
+            User
+          </Box>
+        </Box>
+      )}
 
-export default Navbar;
+      {isUserLoggedIn ? <Box className={styles.contentContainer}>{children}</Box> : <>{children}</>}
+    </Box>
+  )
+}
+
+export default Navbar
