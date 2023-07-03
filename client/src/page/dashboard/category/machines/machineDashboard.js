@@ -181,7 +181,7 @@ const MachineDashboard = () => {
     if(!isFetching){
        setTimeout(() => {
          getAllMachine()
-       }, 10000)
+       }, 4000)
     }
    
   }, [isFetching])

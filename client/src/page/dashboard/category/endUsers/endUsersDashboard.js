@@ -54,7 +54,7 @@ const EndUsersDashboard = () => {
       if (!isFetching) {
         setTimeout(() => {
           getAllEndUser()
-        }, 10000)
+        }, 4000)
       }
     }, [isFetching])
 

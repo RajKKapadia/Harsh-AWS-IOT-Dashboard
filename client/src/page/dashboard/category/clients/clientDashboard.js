@@ -65,7 +65,7 @@ const ClientDashboard = () => {
         if (!isFetching) {
           setTimeout(() => {
             getAllClient()
-          }, 10000)
+          }, 4000)
         }
       }, [isFetching])
 
